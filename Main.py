@@ -1,305 +1,79 @@
-class Solution:
-
-    """This class implements linear queue.
-
-      Attributes:
-
-          stack: A list which maintains the content of stack.
-
-          queue: A list which maintains the content of queue.
-
-          top: An integer which denotes the index of the element at the top of the stack.
-
-          front: An integer which denotes the index of the element at the front of the queue.
-
-          rear: An integer which denotes the index of the element at the rear of the queue.
-
-          size: An integer which represents the size of stack and queue.
-
-      """
-
- 
-
-    # Write your code here
-
+class Evaluate:
+    # This class validates and evaluate postfix expression.
+    # Attributes:
+    #   top: An integer which denotes the index of the element at the top of the stack currently.
+    #   size_of_stack: An integer which represents the size of stack.
+    #   stack: A List which acts as a Stack.
     def __init__(self, size):
-
-        """Inits Solution with stack, queue, size, top, front and rear.
-
-        Arguments:
-
-          size: An integer to set the size of stack and queue.
-
-        """
-
-       
-
-        self.size = size
-
-        self.lst = [None]*size
-
-        self.queue = [None]*size
-
+        # Inits Evaluate with top, size_of_stack and stack.
+        #  Arguments:
+        #    size_of_stack: An integer to set the size of stack.
         self.top = -1
-
-        self.rear = -1
-
-        self.front = -1
-
- 
-
-    def is_stack_empty(self):
-
-        """
-
-        Check whether the stack is empty.
-
-        Returns:
-
-          True if it is empty, else returns False.
-
-        """
-
-        # Write your code here
-
-        if self.top == -1:
-
-            return 1
-
-        else :
-
-            return 0
-
-    def is_queue_empty(self):
-
-        """
-
-        Check whether the queue is empty.
-
-        Returns:
-
-          True if it is empty, else returns False.
-
-        """
-
-        # Write your code here
-
-        if self.front==-1 or self.front>self.rear:
-
-            return 1
-
-        else:
-
-            return 0
-
-    def is_stack_full(self):
-
-        """
-
-        Check whether the stack is full.
-
-        Returns:
-
-          True if it is full, else returns False.
-
-        """
-
-        # Write your code here
-
-        if self.top == (self.size - 1):
-
-            return 1
-
-        else :
-
-            return 0
-
-    def is_queue_full(self):
-
-        """
-
-        Check whether the queue is full.
-
-        Returns:
-
-          True if it is full, else returns False.
-
-        """
-
-        # Write your code here
-
-        if self.rear==(self.size-1):
-
-            return 1
-
-        else:
-
-            return 0
-
-    def push_character(self, character):
-
-        """
-
-        Push the character to stack, if stack is not full.
-
-        Arguments:
-
-            character: A character that will be pushed to the stack.
-
-        """
-
-        # Write your code here
-
-        if not self.is_stack_full():
-
-            self.top+=1
-
-            self.lst[self.top]=character
-
-    def enqueue_character(self, character):
-
-        """
-
-        Enqueue the character to queue, if queue is not full.
-
-        Arguments:
-
-            character: A character that will be enqueued to queue.
-
-        """
-
-        # Write your code here
-
-        if not self.is_queue_full():
-
-            if self.front==-1:
-
-                self.front=0
-
-            self.rear+=1
-
-            self.queue[self.rear]=character
-
-           
-
-    def pop_character(self):
-
-        """
-
-        Do pop operation if the stack is not empty.
-
-        Returns:
-
-          The data that is popped out if the stack is not empty.
-
-        """
-
-        # Write your code here
-
-        if not self.is_stack_empty():
-
-            t=self.lst[self.top]
-
-            del self.lst[self.top]
-
-            self.top-=1
-
-            return t
-
-    def dequeue_character(self):
-
-        """
-
-        Do dequeue operation if the queue is not empty.
-
-        Returns:
-
-          The data that is dequeued if the queue is not empty.
-
-        """
-
-        # Write your code her
-
-        if not self.is_queue_empty():
-
-            r=self.queue[0]
-
-            del self.queue[0]
-
-            self.front+=1
-
-            return r
-
-# read the string text
-
-text = input()
-
- 
-
-# find the length of text
-
-length_of_text = len(text)
-
- 
-
-# Create the Solution class object
-
-solution = Solution(length_of_text)
-
- 
-
-# push/enqueue all the characters of string text to stack
-
-for index in range(length_of_text):
-
-    # Write code here
-
-    solution.push_character(text[index])
-
-    solution.enqueue_character(text[index])
-
- 
-
-is_palindrome = True
-
-'''
-
-pop the top character from stack
-
-dequeue the first character from queue
-
-compare both characters
-
-If the comparison fails, set is_palindrome as False.
-
-'''
-
-# Write the necessary logic
-
-a=""
-
-b=""
-
-for i in range(solution.front,solution.rear+1):
-
-    a+=solution.pop_character()
-
-    b+=solution.dequeue_character()
-
-if a!=b:
-
-    is_palindrome = False
-
+        self.size_of_stack = size
+        self.stack = []
+
+    def isEmpty(self):
+        # Check whether the stack is empty.
+        # Returns:
+        # True if it is empty, else returns False
+        return len(self.stack) == 0
+
+    def pop(self):
+        # Do pop operation if the stack is not empty.
+        # Returns:
+        # The data which is popped out if the stack is not empty.
+        if not self.isEmpty():
+            self.top -= 1
+            return self.stack.pop(-1)
+
+    def push(self, operand):
+        # Push the operand to stack if the stack is not full.
+        # Arguments:
+        # operand: The operand to be pushed.
+        if len(self.stack) < self.size_of_stack:
+            self.top += 1
+            self.stack.append(operand)
+
+    def validate_postfix_expression(self, expression):
+        # Check whether the expression is a valid postfix expression.
+        # Arguments:
+        #  expression: A list which represents the expression to be validated.
+        # Returns:
+        #  True if the expression is valid, else returns False
+        operands = [element for element in expression if element.isdigit()]
+        operators = [element for element in expression if element in ["+", "-", "*", "/", "^"]]
+        if (len(operands)+len(operators))==len(expression) and len(operands)==len(operators) + 1:
+            return expression[0] not in operators and expression[1] not in operators
+    def evaluate_postfix_expression(self, expression):
+        # Evaluate the postfix expression
+        # Arguments:
+        #    expression: A list which represents the the expression to be evaluated
+        # Returns:
+        #    The result of evaluated postfix expression.
+        self.stack = []
+        for element in expression:
+            if element.isdigit():
+                self.push(int(element))
+            elif element in ["+", "-", "*", "/", "^"]:
+                if element == "+":
+                    result = self.stack[-2] + self.stack[-1]
+                elif element == "-":
+                    result = self.stack[-2] - self.stack[-1]
+                elif element == "*":
+                    result = self.stack[-2] * self.stack[-1]
+                elif element == "/":
+                    result = self.stack[-2] // self.stack[-1]
+                elif element == "^":
+                    result = self.stack[-2] ** self.stack[-1]
+                self.pop()
+                self.pop()
+                self.push(result)
+        return self.pop()
+# Do not change the following code
+postfix_expression = input()  # Read postfix expression
+tokens = postfix_expression.split()
+evaluate = Evaluate(len(tokens))
+if evaluate.validate_postfix_expression(tokens):
+    print(evaluate.evaluate_postfix_expression(tokens))
 else:
-
-    is_palindrome = True
-
-# finally print whether string text is palindrome or not.
-
-if is_palindrome:
-
-    print("The word, " + text + ", is a palindrome.")
-
-else:
-
-    print("The word, " + text + ", is not a palindrome.")
+  print('Invalid postfix expression')
